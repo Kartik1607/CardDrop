@@ -1,7 +1,5 @@
 package com.stfo.models;
 
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -26,16 +24,13 @@ public class User {
 	private String detail;
 	
 	/** Phone Number of a User. It must be numeric. **/
-	private String phone;
+	private long phone;
 	
-	/** Contains mongoId of card user has created. **/
-	private String userCard;
+	/** Contains details of card user has created. **/
+	private Card userCard;
 	
-	/** List of mongoId's of drops, which are picked by current user. **/
-	private List<String> pickedCards;
-
 	/**
-	 * Returns the {@code mongoId} of the Current User.
+	 * Returns the {@code mongoId} of the current User.
 	 * <p>
 	 * Use this to find {@link Drops} by the current User.
 	 * @return String representing MongoId of User
@@ -44,47 +39,82 @@ public class User {
 		return id;
 	}
 
+	/**
+	 * @return String representing name of User.
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Set name of current User. {@link String#length()} of name must be <b>utmost 20 characters</b> long.
+	 * @param name New name for current User
+	 */
 	public void setName(String name) {
-		this.name = name;
+		if (name.length() <= 20) {
+			this.name = name;
+		}
 	}
 
+	/**
+	 * @return String representing details of User.
+	 */
 	public String getDetail() {
 		return detail;
 	}
 
+	/**
+	 * Sets details of current User. {@link String#length()} of details must be <b>utmost 50 characters</b> long.
+	 * @param detail
+	 */
 	public void setDetail(String detail) {
-		this.detail = detail;
+		if (detail.length() <= 50) {
+			this.detail = detail;
+		}
 	}
 
-	public String getPhone() {
+	/**
+	 * @return String representing phone number of user.
+	 */
+	public long getPhone() {
 		return phone;
 	}
 
-	public void setPhone(String phone) {
+	/**
+	 * Sets phone number of current User.
+	 * <p>
+	 *  
+	 * @param phone Phone number of User.
+	 * @throws IllegalArgumentException If a zero or negative phone number is given.
+	 */
+	public void setPhone(long phone) throws IllegalArgumentException{
+		if (phone <= 0) {
+			throw new IllegalArgumentException("Phone number must be greater than zero");
+		}
 		this.phone = phone;
 	}
 
-	public String getUserCard() {
+	/**
+	 * @return Details of card of current User.
+	 */
+	public Card getUserCard() {
 		return userCard;
 	}
 
-	public void setUserCard(String userCard) {
+	/**
+	 * Sets card of current User.
+	 * @param userCard The new card to replace current user card.
+	 */
+	public void setUserCard(Card userCard) {
 		this.userCard = userCard;
 	}
 
-	public List<String> getPickedCards() {
-		return pickedCards;
+	public User(String name, String detail, long phone, Card userCard) {
+		super();
+		this.name = name;
+		this.detail = detail;
+		this.phone = phone;
+		this.userCard = userCard;
 	}
 
-	public void setPickedCards(List<String> pickedCards) {
-		this.pickedCards = pickedCards;
-	}
-	
-	
-	
-	
 }

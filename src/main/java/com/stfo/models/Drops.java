@@ -14,5 +14,6 @@ public class Drops {
 	private double latitude;
 	private double longitude;
 	private Date expireTime;
+	
 
 }

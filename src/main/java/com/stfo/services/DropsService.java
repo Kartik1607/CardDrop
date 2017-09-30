@@ -12,8 +12,18 @@ import org.springframework.stereotype.Service;
 import com.stfo.models.Drops;
 import com.stfo.repositories.DropsRepository;
 
+/**
+ * <b>DropsService</b> is responsible for managing the events and queries related the user dropping his/her card.
+ * <br>For example : Adding a new card to document, getting list of dropped cards etc.
+ * @author Kartik
+ *
+ */
 @Service
 public class DropsService {
+	
+	private enum EXPIRE_TIME { 
+		TIME_SHORT, TIME_LONG;
+	};
 
 	private DropsRepository dropsRepository;
 	
@@ -22,11 +32,19 @@ public class DropsService {
 		this.dropsRepository = dropsRepository;
 	}
 	
-	/*public void test() {
-		LocalDateTime date = LocalDateTime.now();
-		date = date.plusSeconds(5);
-		dropsRepository.save(new Drops("123", new GeoJsonPoint(new Point(0, 0)), date));
-		date = date.plusMinutes(1);
-		dropsRepository.save(new Drops("123", new GeoJsonPoint(new Point(0, 0)), date));
-	}*/
+	private LocalDateTime getExpireTime(EXPIRE_TIME which) {
+		LocalDateTime time = LocalDateTime.now();
+		switch (which) {
+			case TIME_SHORT: {
+				time.plusMinutes(5);
+				break;
+			}
+			case TIME_LONG: {
+				time.plusYears(1);
+				break;
+			}
+		}
+		return time;
+	}
+	
 }

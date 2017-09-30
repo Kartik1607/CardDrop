@@ -47,30 +47,10 @@ public class User {
 	}
 
 	/**
-	 * Set name of current User. {@link String#length()} of name must be <b>utmost 20 characters</b> long.
-	 * @param name New name for current User
-	 */
-	public void setName(String name) {
-		if (name.length() <= 20) {
-			this.name = name;
-		}
-	}
-
-	/**
 	 * @return String representing details of User.
 	 */
 	public String getDetail() {
 		return detail;
-	}
-
-	/**
-	 * Sets details of current User. {@link String#length()} of details must be <b>utmost 50 characters</b> long.
-	 * @param detail
-	 */
-	public void setDetail(String detail) {
-		if (detail.length() <= 50) {
-			this.detail = detail;
-		}
 	}
 
 	/**
@@ -81,20 +61,6 @@ public class User {
 	}
 
 	/**
-	 * Sets phone number of current User.
-	 * <p>
-	 *  
-	 * @param phone Phone number of User.
-	 * @throws IllegalArgumentException If a zero or negative phone number is given.
-	 */
-	public void setPhone(long phone) throws IllegalArgumentException{
-		if (phone <= 0) {
-			throw new IllegalArgumentException("Phone number must be greater than zero");
-		}
-		this.phone = phone;
-	}
-
-	/**
 	 * @return Details of card of current User.
 	 */
 	public Card getUserCard() {
@@ -102,17 +68,21 @@ public class User {
 	}
 
 	/**
-	 * Sets card of current User.
-	 * @param userCard The new card to replace current user card.
+	 * Creates an instance of class User. <br>
+	 * 
+	 * @param name Set name of current User. {@link String#length()} of name must be <b>utmost 20 characters</b> long.
+	 * @param detail  Sets details of current User. {@link String#length()} of details must be <b>utmost 50 characters</b> long.
+	 * @param phone String representing phone number of user.
+	 * @param userCard Details of card of current User.
+	 * @throws IllegalArgumentException If a zero or negative phone number is given.
 	 */
-	public void setUserCard(Card userCard) {
-		this.userCard = userCard;
-	}
-
-	public User(String name, String detail, long phone, Card userCard) {
+	public User(String name, String detail, long phone, Card userCard) throws IllegalArgumentException {
 		super();
-		this.name = name;
-		this.detail = detail;
+		this.name = name.substring(0,20);
+		this.detail = detail.substring(0,50);
+		if (phone <= 0) {
+			throw new IllegalArgumentException("Phone number must be greater than zero");
+		}
 		this.phone = phone;
 		this.userCard = userCard;
 	}

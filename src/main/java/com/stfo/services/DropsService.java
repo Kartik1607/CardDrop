@@ -1,14 +1,12 @@
 package com.stfo.services;
 
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+import org.springframework.data.geo.Circle;
 import org.springframework.stereotype.Service;
 
+import com.stfo.helper.Constants;
 import com.stfo.models.Drops;
 import com.stfo.repositories.DropsRepository;
 
@@ -19,12 +17,8 @@ import com.stfo.repositories.DropsRepository;
  *
  */
 @Service
-public class DropsService {
+public class DropsService {	
 	
-	private enum EXPIRE_TIME { 
-		TIME_SHORT, TIME_LONG;
-	};
-
 	private DropsRepository dropsRepository;
 	
 	@Autowired
@@ -32,19 +26,19 @@ public class DropsService {
 		this.dropsRepository = dropsRepository;
 	}
 	
-	private LocalDateTime getExpireTime(EXPIRE_TIME which) {
-		LocalDateTime time = LocalDateTime.now();
-		switch (which) {
-			case TIME_SHORT: {
-				time.plusMinutes(5);
-				break;
-			}
-			case TIME_LONG: {
-				time.plusYears(1);
-				break;
-			}
-		}
-		return time;
+	
+	public Drops addCardDrop(Drops drop) {
+		drop.setExpireAt(Constants.getExpireTime(drop.getExpire_code()));
+		System.out.println(drop.getExpireAt());
+		return this.dropsRepository.save(drop);
+	}
+	
+	public List<Drops> getCardsDroppedByUser(String userId) {
+		return this.dropsRepository.findById(userId);
+	}
+	
+	public List<Drops> getNearByCards(double latitude, double longitude, double radius) {
+		return this.dropsRepository.findByLocationWithin(new Circle(latitude, longitude, radius));
 	}
 	
 }

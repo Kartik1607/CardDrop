@@ -18,15 +18,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * 	"id": "1", 
  * 	"pickerId": "12",
  * 	"dropperId": "54",
- * 	"dropperUser": {
- * 		"id":"54",
- * 		"name": "Kartik Sharma",
- * 		"detail": "Trainee @ Nagarro"
- * 		"phone": "879645126",
- * 		"card": {
- * 			"theme":"1"
- * 		} 
- *	}
  * }
  * 
  * </pre>
@@ -53,22 +44,17 @@ public class PickedCards {
 	
 	/** MongoId of user who dropped the card which was picked by other user. **/
 	private String dropperId;
-	
-	/** Details of user who dropped the card. **/
-	private User dropperUser;
 
 	/**
 	 * Creates an instance of Class PickedCards.<br>
 	 * The instance is a single element which had been retrieved or will be added to a {@code PickedCards} document.
 	 * @param pickerId Id of {@link User} who picked the card
 	 * @param dropperId Id of {@link User} who dropped the card
-	 * @param dropperUser Details of {@link User} who dropped the card
 	 */
-	public PickedCards(String pickerId, String dropperId, User dropperUser) {
+	public PickedCards(String pickerId, String dropperId) {
 		super();
 		this.pickerId = pickerId;
 		this.dropperId = dropperId;
-		this.dropperUser = dropperUser;
 	}
 
 	/**
@@ -91,13 +77,5 @@ public class PickedCards {
 	public String getDropperId() {
 		return dropperId;
 	}
-
-	/**
-	 * @return Details of {@link User} who dropped the card
-	 */
-	public User getDropperUser() {
-		return dropperUser;
-	}
-	
 	
 }

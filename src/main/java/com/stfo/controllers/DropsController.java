@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stfo.models.Drops;
+import com.stfo.models.decorated.DropsDecorated;
 import com.stfo.services.DropsService;
 
 @RestController
@@ -27,7 +28,7 @@ public class DropsController {
 	}
 	
 	@GetMapping("")
-	public List<Drops> getNearByCards(
+	public List<DropsDecorated> getNearByCards(
 			@RequestParam("lat") double latitude,
 			@RequestParam("long") double longitude,
 			@RequestParam("radius") double radius

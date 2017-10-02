@@ -1,5 +1,6 @@
 package com.stfo.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.stfo.helper.Constants;
 import com.stfo.models.Drops;
+import com.stfo.models.User;
+import com.stfo.models.decorated.DropsDecorated;
 import com.stfo.repositories.DropsRepository;
 
 /**
@@ -20,6 +23,8 @@ import com.stfo.repositories.DropsRepository;
 public class DropsService {	
 	
 	private DropsRepository dropsRepository;
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	public DropsService(DropsRepository dropsRepository) {
@@ -34,11 +39,17 @@ public class DropsService {
 	}
 	
 	public List<Drops> getCardsDroppedByUser(String userId) {
-		return this.dropsRepository.findById(userId);
+		return this.dropsRepository.findByUserId(userId);
 	}
 	
-	public List<Drops> getNearByCards(double latitude, double longitude, double radius) {
-		return this.dropsRepository.findByLocationWithin(new Circle(latitude, longitude, radius));
+	public List<DropsDecorated> getNearByCards(double latitude, double longitude, double radius) {
+		List<DropsDecorated> ret = new ArrayList<>();
+		this.dropsRepository.findByLocationWithin(new Circle(latitude, longitude, radius))
+			.forEach( drop -> {
+				User user = this.userService.getUserWithId(drop.getUserId());
+				ret.add(new DropsDecorated(drop, user));
+			});
+		return ret;
 	}
 	
 }

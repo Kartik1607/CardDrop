@@ -11,6 +11,6 @@ import com.stfo.models.Drops;
 @Repository
 public interface DropsRepository extends MongoRepository<Drops, String>{
 	
-	List<Drops> findById(String id);
+	List<Drops> findByUserId(String userId);
 	List<Drops> findByLocationWithin(Circle circle);
 }

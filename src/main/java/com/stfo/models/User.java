@@ -26,9 +26,6 @@ public class User {
 	/** Phone Number of a User. It must be numeric. **/
 	private long phone;
 	
-	/** Contains details of card user has created. **/
-	private Card userCard;
-	
 	/**
 	 * Returns the {@code mongoId} of the current User.
 	 * <p>
@@ -60,12 +57,7 @@ public class User {
 		return phone;
 	}
 
-	/**
-	 * @return Details of card of current User.
-	 */
-	public Card getUserCard() {
-		return userCard;
-	}
+
 
 	/**
 	 * Creates an instance of class User. <br>
@@ -73,18 +65,24 @@ public class User {
 	 * @param name Set name of current User. {@link String#length()} of name must be <b>utmost 20 characters</b> long.
 	 * @param detail  Sets details of current User. {@link String#length()} of details must be <b>utmost 50 characters</b> long.
 	 * @param phone String representing phone number of user.
-	 * @param userCard Details of card of current User.
+	
 	 * @throws IllegalArgumentException If a zero or negative phone number is given.
 	 */
-	public User(String name, String detail, long phone, Card userCard) throws IllegalArgumentException {
+	public User(String name, String detail, long phone) throws IllegalArgumentException {
 		super();
-		this.name = name.substring(0,20);
-		this.detail = detail.substring(0,50);
+		this.name = name.substring(0,name.length() >= 20 ? 20 : name.length());
+		this.detail = detail.substring(0, detail.length() >= 50 ? 50 : detail.length());
 		if (phone <= 0) {
 			throw new IllegalArgumentException("Phone number must be greater than zero");
 		}
 		this.phone = phone;
-		this.userCard = userCard;
+	}
+	
+	/**
+	 * Creates an instance of class User.
+	 */
+	public User() {
+		
 	}
 
 }

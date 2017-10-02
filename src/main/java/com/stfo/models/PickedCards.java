@@ -56,6 +56,13 @@ public class PickedCards {
 		this.pickerId = pickerId;
 		this.dropperId = dropperId;
 	}
+	
+	/**
+	 * Creates and instance of class PickedCards.
+	 */
+	public PickedCards() {
+		
+	}
 
 	/**
 	 * @return String representing MongoId of current document element. For internal use only.

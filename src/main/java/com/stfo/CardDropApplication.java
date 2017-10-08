@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.geo.GeoJsonModule;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.repository.init.AbstractRepositoryPopulatorFactoryBean;
 import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFactoryBean;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationFeature;

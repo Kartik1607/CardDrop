@@ -26,7 +26,6 @@ public class ImageController {
 
 	@PostMapping("")
 	public ResponseEntity<String> uploadFile(@RequestParam(value = "file", required = true) MultipartFile file) {
-		
 		String fileName = UUID.randomUUID().toString();
 		file.getContentType();
 		String body = "";
@@ -35,10 +34,9 @@ public class ImageController {
 			body = "";
 			status = HttpStatus.NO_CONTENT;
 		}
-
 		try {
 			byte[] bytes = file.getBytes();
-			Path path = Paths.get(UPLOADED_FOLDER + fileName );
+			Path path = Paths.get(UPLOADED_FOLDER + fileName + ".jpg");
 			Files.write(path, bytes);
 			status = HttpStatus.OK;
 			body = fileName;
@@ -50,11 +48,11 @@ public class ImageController {
 		return new ResponseEntity<String>(body, status);
 	}
 	
-	@GetMapping(value = "/{imageId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@GetMapping(value = "/{imageId}", produces = MediaType.IMAGE_JPEG_VALUE)
 	public ResponseEntity<byte[]> getImage(@PathVariable("imageId") String imageId) {
 		byte[] bytes;
 		HttpStatus status;
-		Path path = Paths.get(UPLOADED_FOLDER + imageId);
+		Path path = Paths.get(UPLOADED_FOLDER + imageId + ".jpg");
 		try {
 			bytes = Files.readAllBytes(path);
 			status = HttpStatus.OK;

@@ -9,7 +9,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stfo.helper.Constants;
+import com.stfo.models.Registrations;
 import com.stfo.models.User;
+import com.stfo.models.decorated.UserRegistrationDecorated;
+import com.stfo.models.decorated.UserRegistrationRequest;
+import com.stfo.models.decorated.UserRegistrationResponse;
+import com.stfo.services.RegistrationsService;
 import com.stfo.services.UserService;
 
 import java.util.List;
@@ -20,11 +26,35 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RegistrationsService registrationsService;
 	
 	@PostMapping("")
-	public User addUser(@RequestBody User user) {
-		return this.userService.addUser(user); 
+	public UserRegistrationResponse addUser(@RequestBody UserRegistrationRequest request) {
+		UserRegistrationResponse response = new UserRegistrationResponse();
+		if(this.registrationsService.doesUserExists(request.getPhone())) {
+			Registrations registration = this.registrationsService.loginUser(
+											new Registrations(request.getPhone(), request.getPassword())
+											);
+			if (registration == null) {
+				response.setStatus(Constants.INVALID_PASSWORD);
+				response.setUser(null);
+			} else {
+				response.setStatus(Constants.SUCCESS_LOGIN);
+				response.setUser(getUsers(registration.getUserId()));
+			}
+			return response;
+		}
+		
+		User newUser = new User("","",request.getPhone(), "");
+		newUser = this.userService.addUser(newUser);
+		this.registrationsService.saveUser(newUser, request.getPassword());
+		
+		response.setStatus(Constants.NEW_REGISTRATION);
+		response.setUser(newUser);
+		return response;
 	}
+	
 	
 	@GetMapping("")
 	public List<User> getUsers() {

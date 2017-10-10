@@ -3,6 +3,11 @@ package com.stfo.models.decorated;
 import com.stfo.models.PickedCards;
 import com.stfo.models.User;
 
+/**
+ * Dynamically populated user into picked card through userId of User.
+ * @author Kartik
+ *
+ */
 public class PickedCardsDecorated {
 	private PickedCards pickedCard;
 	

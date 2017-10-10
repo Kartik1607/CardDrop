@@ -2,6 +2,11 @@ package com.stfo.models.decorated;
 
 import com.stfo.models.User;
 
+/**
+ * 
+ * @author Kartik
+ *
+ */
 public class UserRegistrationDecorated {
 	private Long phone;
 	private String password;

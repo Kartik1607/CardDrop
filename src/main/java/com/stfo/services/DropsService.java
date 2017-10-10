@@ -31,17 +31,33 @@ public class DropsService {
 		this.dropsRepository = dropsRepository;
 	}
 	
-	
+	/**
+	 * Add a new card to Drops document and also calculates correct expire time.
+	 * @param drop Drops object containing location, userId and expire_code.
+	 * @return Newly created Drops document.
+	 */
 	public Drops addCardDrop(Drops drop) {
 		drop.setExpireAt(Constants.getExpireTime(drop.getExpire_code()));
 		System.out.println(drop.getExpireAt());
 		return this.dropsRepository.save(drop);
 	}
 	
+	/**
+	 * Returns List of card dropped by a particular user.
+	 * @param userId Mongo User Id for which cards are needed.
+	 * @return All Cards dropped by user.
+	 */
 	public List<Drops> getCardsDroppedByUser(String userId) {
 		return this.dropsRepository.findByUserId(userId);
 	}
 	
+	/**
+	 * Returns all the cards and users details who dropped a card within radius.
+	 * @param latitude Current position of Client
+	 * @param longitude Current position of Client
+	 * @param radius Radius for which cards are needed
+	 * @return List of {@link DropsDecorated}
+	 */
 	public List<DropsDecorated> getNearByCards(double latitude, double longitude, double radius) {
 		List<DropsDecorated> ret = new ArrayList<>();
 		this.dropsRepository.findByLocationWithin(new Circle(latitude, longitude, radius))

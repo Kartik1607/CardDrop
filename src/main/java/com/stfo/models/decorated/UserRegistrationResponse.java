@@ -1,7 +1,13 @@
 package com.stfo.models.decorated;
 
+import com.stfo.helper.Constants;
 import com.stfo.models.User;
 
+/**
+ * Class to send Response for registration along with status and user if created.
+ * @author Kartik
+ * @see Constants
+ */
 public class UserRegistrationResponse {
 	private String status;
 	private User user;

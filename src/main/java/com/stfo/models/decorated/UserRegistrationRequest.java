@@ -1,5 +1,10 @@
 package com.stfo.models.decorated;
 
+/**
+ * Class to get a Request specifically for Login.
+ * @author Kartik
+ *
+ */
 public class UserRegistrationRequest {
 	
 	private Long phone;

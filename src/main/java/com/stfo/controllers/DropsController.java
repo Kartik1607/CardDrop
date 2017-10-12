@@ -3,7 +3,7 @@ package com.stfo.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +16,7 @@ import com.stfo.models.Drops;
 import com.stfo.models.decorated.DropsDecorated;
 import com.stfo.services.DropsService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/drops")
 public class DropsController {

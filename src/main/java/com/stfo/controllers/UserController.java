@@ -1,6 +1,7 @@
 package com.stfo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import com.stfo.services.UserService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -29,8 +31,8 @@ public class UserController {
 	@Autowired
 	private RegistrationsService registrationsService;
 	
-	@PostMapping("")
-	public UserRegistrationResponse addUser(@RequestBody UserRegistrationRequest request) {
+	@PostMapping("/login")
+	public UserRegistrationResponse loginUser(@RequestBody UserRegistrationRequest request) {
 		UserRegistrationResponse response = new UserRegistrationResponse();
 		if(this.registrationsService.doesUserExists(request.getPhone())) {
 			Registrations registration = this.registrationsService.loginUser(
@@ -43,6 +45,20 @@ public class UserController {
 				response.setStatus(Constants.SUCCESS_LOGIN);
 				response.setUser(getUsers(registration.getUserId()));
 			}
+			return response;
+		}
+		
+		response.setStatus(Constants.NOT_REGISTERED);
+		response.setUser(null);
+		return response;
+	}
+	
+	@PostMapping("/register")
+	public UserRegistrationResponse regusterUser(@RequestBody UserRegistrationRequest request) {
+		UserRegistrationResponse response = new UserRegistrationResponse();
+		if(this.registrationsService.doesUserExists(request.getPhone())) {
+			response.setStatus(Constants.ALREADY_REGISTERED);
+			response.setUser(null);
 			return response;
 		}
 		

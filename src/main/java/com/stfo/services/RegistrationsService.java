@@ -1,13 +1,10 @@
 package com.stfo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.stfo.models.Registrations;
 import com.stfo.models.User;
-import com.stfo.models.decorated.UserRegistrationDecorated;
 import com.stfo.repositories.RegistrationsRepository;
 
 @Service
@@ -25,15 +22,17 @@ public class RegistrationsService {
 	}
 	
 	public Registrations loginUser(Registrations registration) {
+		String password = org.apache.commons.codec.digest.DigestUtils.sha512Hex(registration.getPassword()).toString();
 		return this.registrationsRepository.findByPhoneNumberAndPassword(
-				registration.getPhoneNumber(), registration.getPassword()
+				registration.getPhoneNumber(), password
 				);
 		
 	}
 	
 	public Registrations saveUser(User user, String password) {
+		String digestPassword = org.apache.commons.codec.digest.DigestUtils.sha512Hex(password).toString();
 		return this.registrationsRepository
-				.save(new Registrations(user.getPhone(), password, user.getId()));
+				.save(new Registrations(user.getPhone(), digestPassword, user.getId()));
 	}
 
 }

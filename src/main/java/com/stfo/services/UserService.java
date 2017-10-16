@@ -32,6 +32,7 @@ public class UserService {
 
 	public User updateUserWithId(String userId, User user) {
 		User exists = getUserWithId(userId);
+		user.setId(userId);
 		if (exists == null) {
 			return null;
 		} else {

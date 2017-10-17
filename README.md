@@ -52,7 +52,7 @@ This repo is currently <b>no longer maintained.</b>
 Fork the repo and take it to next  level!!
 
 
-###License
+License
 ----
 
 The MIT License
